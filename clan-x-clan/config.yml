@@ -1,0 +1,9 @@
+#CLANXCLAN, EVENT
+mode: 'EVENT'
+
+names:
+  clanName: 'DRIP'
+  serverIp: 'www.dripmc.com.br'
+motd:
+  linha1: '                   &b&lDRIPMC &7➜ &edc.gg/dripmc'
+  linha2: '                   &b&l✦ &e&lNOVA DIREÇÃO &b&l✦'

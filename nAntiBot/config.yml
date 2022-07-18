@@ -1,0 +1,313 @@
+####################################################################################################
+# +----------------------------------------------------------------------------------------------+ #
+# |                                      _         _   _   ___       _                           | #
+# |                             _ __   /_\  _ __ | |_(_) / __\ ___ | |_                          | #
+# |                            | '_ \ //_\\| '_ \| __| |/__\/// _ \| __|                         | #
+# |                            | | | /  _  \ | | | |_| / \/  \ (_) | |_                          | #
+# |                            |_| |_\_/ \_/_| |_|\__|_\_____/\___/ \__|                         | #
+# |                                                                                              | #
+# |                                 A ready-to-use antibot plugin                                | #
+# |                                                                                              | #
+# |                                © 2022 - Powered by nickuc.com                                | #
+# |                                                                                              | #
+# |                                                                                              | #
+# |  Para um melhor entendimento deste arquivo acesse nossa documentação:                        | #
+# |   ==> https://www.nickuc.com/docs/nantibot                                                   | #
+# |                                                                                              | #
+# |  Novas opções não são adicionadas automaticamente neste arquivo. Valores padrões são usados  | #
+# |  caso uma opção não seja encontrada.                                                         | #
+# +----------------------------------------------------------------------------------------------+ #
+####################################################################################################
+
+# Define a versão do arquivo.
+file-version: 1
+
+# Define o modo de depuração.
+# - Essa opção é usada para encontrar problemas no plugin.
+debug: false
+
+# Define o idioma do plugin.
+#
+# - Traduções disponíveis:
+#
+#  |=> Português: messages_br.yml
+#  |=> Inglês: messages_en.yml
+#  |=> Russo: messages_ru.yml
+#  |=> Espanhol: messages_es.yml
+#
+# - Ao alterar o idioma, o arquivo atual poderá ser redefinido.
+lang: 'messages_br.yml'
+
+#     ___ _                 _
+#    / __\ | ___  _   _  __| |
+#   / /  | |/ _ \| | | |/ _` |
+#  / /___| | (_) | |_| | (_| |
+#  \____/|_|\___/ \__,_|\__,_|
+
+# - Verificação na nuvem.
+cloud:
+  direct-login:
+    # Define o tempo máximo de espera (em milissegundos) para que o IP seja verificado na nuvem.
+    # - Por padrão, o servidor aguardará por 1 segundo.
+    #
+    # - Se a resposta for recebida, o jogador entrará diretamente ao servidor, isto é, sem a
+    #   necessidade de se reconectar.
+    # - Todavia, se a resposta não for recebida, o jogador precisará se reconectar ao servidor.
+    #
+    wait: 1000
+
+    # Define o número máximo de jogadores que poderão se beneficiar desse recurso ao mesmo tempo.
+    # - A limitação desse recurso tem como fim evitar o esgotamento de recursos computacionais
+    #   do servidor no caso de um ataque bot.
+    max: 25
+
+  country:
+    # Define se as regras dos países poderão ser ultrapassadas ao realizar o captcha online.
+    # - É recomendável ativar esta opção para evitar falhas na detecção de países e
+    #   evitar que jogadores estrangeiros sejam impedidos de acessar o servidor.
+    skip-via-captcha: true
+
+    # Define se as regras dos países só serão aplicadas se o servidor estiver sob ataque.
+    # - É recomendável ativar esta opção para evitar que jogadores sejam perdidos.
+    only-check-during-attacks: true
+
+    # Define o modo de operação da regra dos países.
+    #
+    # - Modos válidos:
+    #  |=> 0: desativa as regras dos países. [não recomendado]
+    #  |=> 1: permite os países incluídos nas regras.
+    #  |=> 2: bloqueia os países incluídos nas regras.
+    mode: 1
+
+    # Define os países que respeitarão a regra estabelecida acima.
+    # - Você precisa inserir o código dos países, de acordo com a ISO 3166.
+    #
+    # - Código dos países:
+    #  => https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes
+    list:
+      - "BR"
+      - "PT"
+
+  captcha:
+    # Define a URL usada pelo captcha online.
+    # - Este recurso está disponível apenas para versões pagas (premium).
+    # - Caso não esteja usando a versão premium, o valor definido abaixo será ignorado.
+    url: "ab.nickuc.com"
+
+    # Define o idioma usado pelo captcha online.
+    # - Caso deixe esta opção como "", o idioma será detectado pelo
+    #   país do IP da conexão (recomendado).
+    lang: ""
+
+#     ___ _                        _ _
+#    / __(_)_ __ _____      ____ _| | |
+#   / _\ | | '__/ _ \ \ /\ / / _` | | |
+#  / /   | | | |  __/\ V  V / (_| | | |
+#  \/    |_|_|  \___| \_/\_/ \__,_|_|_|
+
+# - Configurações do firewall.
+firewall:
+  # Define a duração do bloqueio (em segundos) do firewall.
+  # - O bloqueio por IP é feito apenas em clientes TCP extremamente
+  #   suspeitos e insistentes durante um ataque bot.
+  # - A lista de bloqueio é sempre redefinida ao reiniciar o servidor.
+  duration: 90
+
+  throttle:
+    # Define o tempo de vida (em milissegundos) do contador do conexões.
+    duration: 2000
+
+    # Define o número máximo de conexões para que o IP seja recusado.
+    # - O IP poderá voltar a se conectar assim que o contador de conexões expirar.
+    #   O tempo de vida do contador pode ser definido na opção acima.
+    refuse: 3
+
+    # Define o número máximo de conexões para que o IP seja bloqueado temporariamente.
+    #
+    #  (!) O bloqueio apenas acontecerá se um ataque estiver em andamento.
+    #
+    block: 10
+
+  os:
+    # Define se o firewall do sistema operacional deverá ser utilizado se disponível.
+    #
+    # - Recurso exclusivo do nAntiBot Premium ⭐
+    #
+    # - Limitações:
+    #   * Você precisa ter acesso ao super-usuário.
+    #   * Você precisa rodar o seu servidor em um sistema baseado em Linux.
+    #   * Hosts compartilhadas são incompatíveis por hora.
+    #
+    enable-if-available: true
+
+    commands:
+      # Define o comando de instalação dos programas necessários.
+      install: "sudo apt-get install -y iptables ipset"
+
+      # Define os comandos de inicialização.
+      start:
+        - "sudo ipset create {chain} hash:ip timeout {time}" # create set
+        - "sudo iptables -I INPUT -m set --match-set {chain} src -j DROP" # add jump
+
+      # Define os comandos de desligamento.
+      # - É recomendável sempre deletar todas as regras adicionadas durante a opção "start".
+      stop:
+        - "sudo iptables -D INPUT -m set --match-set {chain} src -j DROP" # del jump
+        - "sudo ipset x {chain}" # delete set
+
+      # Define os comandos ao bloquear um ip.
+      block:
+        - "sudo ipset add {chain} {address}"
+
+#                   _  __ _           _   _
+#   /\   /\___ _ __(_)/ _(_) ___ __ _| |_(_) ___  _ __
+#   \ \ / / _ \ '__| | |_| |/ __/ _` | __| |/ _ \| '_ \
+#    \ V /  __/ |  | |  _| | (_| (_| | |_| | (_) | | | |
+#     \_/ \___|_|  |_|_| |_|\___\__,_|\__|_|\___/|_| |_|
+
+# - Configurações da verificação offline.
+verification:
+  delay:
+    # Define o delay (em milissegundos) para joins feitos por ip.
+    join: 1500
+
+    # Define o delay (em milissegundos) para pings feitos por ip.
+    ping: 1000
+
+  limit:
+    # Define a quantidade mínima de novas conexões por segundo.
+    # - Ao atingir esse limite, o sistema de proteção será ativado.
+    connection: 30
+
+    # Define a quantidade mínima de handshakes por segundo.
+    # - Ao atingir esse limite, o sistema de proteção será ativado.
+    handshake: 20
+
+    # Define a quantidade mínima de logins por segundo.
+    # - Ao atingir esse limite, o sistema de proteção será ativado.
+    join: 5
+
+    # Define a quantidade mínima de pings por segundo.
+    # - Ao atingir esse limite, o sistema de proteção será ativado.
+    ping: 15
+
+    # Define a quantidade máxima de contas por ip.
+    # - Ao atingir esse limite, o jogador será desconectado.
+    #
+    #   (!) Esta opção é usada apenas durante ataques.
+    #
+    account-per-ip: 3
+
+  duration:
+    # Define o tempo (em milissegundos) para que o modo de ataque JOIN continue ativo.
+    join: 10000
+
+    # Define o tempo (em milissegundos) para que o modo de ataque PING continue ativo.
+    ping: 5000
+
+    # Define o tempo (em milissegundos) da punição.
+    # - As punições são válidas apenas durante os ataques.
+    punishment: 45000
+
+  type:
+    nickname:
+      # Define o regex de nicknames estranhos.
+      # - O regex padrão proibe que jogadores utilizem nomes conhecidos por serem suspeitos,
+      #   incluindo aqueles incluídos em serviços de botnet e/ou em JARs de botters.
+      strange-regex: "^(?i)(MC)(_)?(Storm|Down|Spam).*|(?i).*(FLEX)(_)?(BOT|OK).*|(Craft|Beach|Actor|Games|Tower|Elder|Mine|Nitro|Worms|Build|Plays|Hyper|Crazy|Super|_Itz|Slime)(Craft|Beach|Actor|Games|Tower|Elder|Mine|Nitro|Worms|Build|Plays|Hyper|Crazy|Super|_Itz|Slime)(11|50|69|99|88|HD|LP|XD|YT)"
+
+    captcha:
+      # Define em quais condições o captcha deverá ser solicitado.
+      #
+      # - Modos válidos:
+      #  |=> 0: solicitar apenas durante ataques.
+      #  |=> 1: solicitar sempre.
+      #  |=> 2: solicitar durante ataques ou se o IP for proxy.
+      #
+      mode: 2
+
+      map:
+        # Define se o captcha de mapa deve ser usado se disponível.
+        # - Em certos cenários (por exemplo, com muitos bots por segundo)
+        #   o captcha poderá não estar disponível.
+        # - Se esta opção for desativada, o captcha online será usado no lugar.
+        enable-if-available: true
+
+        # Define o tempo limite (em segundos) para concluir o captcha.
+        timeout: 15
+
+        # Define o número máximo de conexões que poderão ser verificadas ao mesmo tempo.
+        # - O captcha online será utilizado caso este limite seja atingido.
+        max-sessions: 2000
+
+        # Define se o captcha online deverá ser usado se a verificação pelo captcha de mapa falhar.
+        # - Este recurso é útil para evitar que bots ocupem as vagas de
+        #   sessões de captcha. Caso esta opção seja desativada, conexões
+        #   que falharam anteriormente continuarão sendo adicionadas na
+        #   lista de sessões.
+        #
+        #  (!) A verificação online será usada apenas durante ataques.
+        #
+        cloud-on-fail: true
+
+#    _       _                               _
+#   /_\   __| |_   ____ _ _ __   ___ ___  __| |
+#  //_\\ / _` \ \ / / _` | '_ \ / __/ _ \/ _` |
+# /  _  \ (_| |\ V / (_| | | | | (_|  __/ (_| |
+# \_/ \_/\__,_| \_/ \__,_|_| |_|\___\___|\__,_|
+
+# - Configurações avançadas.
+advanced:
+  # Define se os eventos de conexão da plataforma em execução deverão ser chamados.
+  # - Por exemplo, o evento ClientConnectEvent (no BungeeCord) seria chamado.
+  # - É recomendável ativar esta opção apenas se algum plugin não funcionar corretamente,
+  #   já que essa chamada de eventos cria um processo adicional a cada nova conexão TCP.
+  call-platform-listeners: false
+
+  # Define a quantidade de atualizações (por segundo) da actionbar.
+  # - Valores válidos: todos os divisores máximo comuns do número 20. (1, 2, 4, 5, 10 e 20).
+  update-ticks: 10
+
+  # Define os ips que pulam qualquer verificação feita pelo antibot.
+  # - Opção recomendada se você utiliza algum serviço remoto que falhe com o nAntiBot instalado.
+  #
+  #   (!) Em alguns painéis, as informações de jogadores online são fornecidas
+  #       atráves de um ping. Nesse caso é recomendável adicionar o IP da sua máquina
+  #       caso o recurso não funcione corretamente. Porém isso pode abrir brechas contra
+  #       ataques oriundos do mesmo IP configurado (ex.: em hosts compartilhadas).
+  #
+  unrestricted:
+    - "127.0.0.1"
+
+  adapters:
+    handshake-data-passthrough:
+      # Define se dados serão transmitidos através do handshake.
+      enabled: false
+
+      # Define o limite (em bytes) dos dados transmitidos através do handshake.
+      # - O valor "-1" desativa o limite de bytes.
+      limit: 400
+
+    haproxy:
+      # Define se o HAProxy está sendo usado.
+      # - Este recurso é usado internamente para identificar
+      #   o IP real do cliente TCP.
+      #
+      # => Não se esqueça de configurar corretamente os IPs de origem no seu firewall.
+      enabled: false
+
+      # Define se IPs não confiáveis poderão acessar o servidor.
+      # - É recomendável ativar esta opção para evitar que o IP real
+      #   do seu servidor seja descoberto.
+      deny-untrusted: true
+
+      # Define a lista de IPs confiáveis.
+      # - Apenas mensagens HAProxy enviadas por esses IPs serão processadas.
+      #
+      # - Valores válidos:
+      #  * IPs (ex.: 192.0.2.146)
+      #  * CIDR (ex.: 172.16.0.0/24)
+      #  * URLs (ex.: https://tcpshield.com/v4/)
+      #
+      trusted:
+        #- "https://tcpshield.com/v4/" # for tcpshield
